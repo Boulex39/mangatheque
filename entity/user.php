@@ -6,7 +6,7 @@ class User {
     private string $password = '123456';
     private DateTimeImmutable $created_at;
 
-    public function __contruct($id, $pseudo, $email, $password){
+    public function __construct($id, $pseudo, $email, $password){
         $this->id = $id;
         $this->pseudo = $pseudo;
         $this->email = $email;
@@ -30,7 +30,7 @@ class User {
         $this->pseudo = $pseudo;
     }
 
-       public function getEmail() :string {
+       public function getEmail() : string {
         return $this->email;
     }
 
@@ -53,36 +53,3 @@ class User {
     // public function setCreated_at()
 
 }
-
-$user = new User(25, 'boulex39', 'boulex39@gmail.com', '123564');
-$user2 = new User();
-
-echo $user->getId() . '<br>';
-echo $user2->getId() . '<br>';
-
-$user->setId(25);
-
-echo $user->getId() . '<br>';
-echo $user2->getId() . '<br>';
-
-$pseudo = new User();
-$pseudo2 = new User();
-
-echo $pseudo->getPseudo() . '<br>';
-echo $pseudo2->getPseudo() . '<br>';
-
-$pseudo->setPseudo('tata');
-
-echo $pseudo->getPseudo() . '<br>';
-echo $pseudo2->getPseudo() . '<br>';
-
-$password = new User();
-
-echo $password->getPassword() . '<br>';
-
-$password->setPassword('2568482');
-
-echo $password->getPassword() . '<br>';
-
-
-
