@@ -18,6 +18,9 @@ $router->setBasePath('/mangatheque');
 // Nom de la route : 'homepage'
 $router->map('GET', '/', 'ControllerPage#homePage', 'homepage');
 
+// User
+$router->map('GET', '/user/[i:id]', 'ControllerUser#oneUserById', 'userPage');
+
 // On essaie de faire correspondre l'URL actuelle avec les routes définies
 $match = $router->match();
 
@@ -41,6 +44,8 @@ if(is_array($match)){
         http_response_code(404);
     }
 }
+
+$router->map('GET', '/user/delete/[i:id]', 'ControllerUser#deleteUserById','userdelete');
 
 // require 'vendor/autoload.php';
 // require 'vendor/altorouter/altorouter/AltoRouter.php';

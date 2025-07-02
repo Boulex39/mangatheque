@@ -6,11 +6,20 @@ class User {
     private string $password = '123456';
     private DateTimeImmutable $created_at;
 
-    public function __construct($id, $pseudo, $email, $password){
-        $this->id = $id;
-        $this->pseudo = $pseudo;
-        $this->email = $email;
-        $this->password = $password;
+    public function __construct(array $datas)
+    {
+        $this->created_at = new \DateTimeImmutable();
+        $this->hydrate($datas);
+    }
+
+    private function hydrate(array $datas){
+        foreach($datas as $key => $value){
+            $method = 'set' . ucfirst($key);
+
+            if(method_exists($this, $method)){
+                $this->$method($value);
+            }
+        }
     }
 
 
@@ -50,6 +59,8 @@ class User {
         return $this->created_at;
     }
 
-    // public function setCreated_at()
+    public function setCreated_at(string $created_at) : void {
+        $this->created_at = new \DateTimeImmutable($created_at);
+    }
 
 }
