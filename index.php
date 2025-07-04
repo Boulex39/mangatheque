@@ -21,7 +21,10 @@ $router->map('GET', '/', 'ControllerPage#homePage', 'homepage');
 // User
 $router->map('GET', '/user/[i:id]', 'ControllerUser#oneUserById', 'userPage');
 
-$router->map('GET', '/user/delete/[i:id]', 'ControllerUser#deleteUserById','userdelete');
+$router->map('GET', '/user/delete/[i:id]', 'ControllerUser#deleteUserById','userDelete');
+
+//création d'une route qui appelle ControllerUser::updateUser() quand on visite /user/update/1, /user/update/2, etc.
+$router->map('GET|POST', '/user/update/[i:id]', 'ControllerUser#updateUser', 'userUpdate');
 
 // On essaie de faire correspondre l'URL actuelle avec les routes définies
 $match = $router->match();

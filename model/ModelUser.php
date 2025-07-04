@@ -46,6 +46,18 @@ class ModelUser extends Model
         return $req->rowCount() > 0;
 
     }
+
+    public function updateOneUserById(int $id) : bool 
+    {
+        $req = $this->getDb()->prepare('UPDATE user SET pseudo = :pseudo, email = :email, password = :password WHERE id = :id');
+        $req->bindParam(':pseudo', $pseudo, PDO::PARAM_STR);
+        $req->bindParam(':email', $email, PDO::PARAM_STR);
+        $req->bindParam(':password', $password, PDO::PARAM_STR);
+        
+        return $req->execute();
+    }
+
+
 }
 
 // class ModelUser
