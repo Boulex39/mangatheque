@@ -20,6 +20,9 @@ foreach($users as $user) :
 
     <!-- Lien pour "voir le user" (à compléter avec une URL dynamique si nécessaire) -->
     <p><a href="user/<?= $user->getId() ?>">Voir le user</a></p>
+
+    <!-- supprimer le user -->
+    <p><a href="user/delete/<?= $user->getId()?>">supprimer le user</a></p>
 </div>
 <?php
 // Fin de la boucle foreach

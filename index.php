@@ -21,6 +21,8 @@ $router->map('GET', '/', 'ControllerPage#homePage', 'homepage');
 // User
 $router->map('GET', '/user/[i:id]', 'ControllerUser#oneUserById', 'userPage');
 
+$router->map('GET', '/user/delete/[i:id]', 'ControllerUser#deleteUserById','userdelete');
+
 // On essaie de faire correspondre l'URL actuelle avec les routes définies
 $match = $router->match();
 
@@ -45,7 +47,7 @@ if(is_array($match)){
     }
 }
 
-$router->map('GET', '/user/delete/[i:id]', 'ControllerUser#deleteUserById','userdelete');
+
 
 // require 'vendor/autoload.php';
 // require 'vendor/altorouter/altorouter/AltoRouter.php';

@@ -35,8 +35,17 @@ class ModelUser extends Model
         $user = $req->fetch(PDO::FETCH_ASSOC);
 
         return $user ? new User($user) : null;
-}
+    }
 
+    public function deleteOneUserById(int $id) : bool
+    {
+        $req = $this->getDb()->prepare('DELETE FROM user WHERE id = :id');
+        $req->bindParam(':id', $id, PDO::PARAM_INT);
+        $req->execute();
+
+        return $req->rowCount() > 0;
+
+    }
 }
 
 // class ModelUser
