@@ -1,32 +1,27 @@
 <?php
 // On inclut l'autoloader généré par Composer pour charger automatiquement les classes nécessaires
 require 'vendor/autoload.php';
-
 // On inclut manuellement la classe AltoRouter (nécessaire si elle n'est pas bien autoloadée)
-require 'vendor/altorouter/altorouter/AltoRouter.php';
+// require 'vendor/altorouter/altorouter/AltoRouter.php';
 
-// On crée une instance du routeur
 $router = new AltoRouter();
-
-// On définit le chemin de base de notre application (utile si ton site est dans un sous-dossier)
 $router->setBasePath('/mangatheque');
 
-// On déclare une route :
-// Méthode HTTP : GET
-// URL : / (racine du site)
-// Cible : méthode 'homePage' de la classe 'ControllerPage'
-// Nom de la route : 'homepage'
 $router->map('GET', '/', 'ControllerPage#homePage', 'homepage');
-
 // User
 $router->map('GET', '/user/[i:id]', 'ControllerUser#oneUserById', 'userPage');
-
 $router->map('GET', '/user/delete/[i:id]', 'ControllerUser#deleteUserById','userDelete');
-
-//création d'une route qui appelle ControllerUser::updateUser() quand on visite /user/update/1, /user/update/2, etc.
 $router->map('GET|POST', '/user/update/[i:id]', 'ControllerUser#updateUser', 'userUpdate');
 
-// On essaie de faire correspondre l'URL actuelle avec les routes définies
+// Routes Manga
+$router->map('GET', '/mangas', 'ControllerManga#allMangas', 'mangasList');             // Liste tous les mangas
+$router->map('GET', '/mangas/[i:id]', 'ControllerManga#oneManga', 'mangaShow');        // Fiche d'un manga
+$router->map('GET', '/mangas/create', 'ControllerManga#createMangaForm', 'mangaCreateForm'); // Formulaire ajout manga
+$router->map('POST', '/mangas/store', 'ControllerManga#storeManga', 'mangaStore');     // Traitement ajout manga
+$router->map('GET', '/mangas/[i:id]/edit', 'ControllerManga#editMangaForm', 'mangaEditForm'); // Formulaire édition
+$router->map('POST', '/mangas/[i:id]/update', 'ControllerManga#updateManga', 'mangaUpdate');  // Traitement édition
+$router->map('POST', '/mangas/[i:id]/delete', 'ControllerManga#deleteManga', 'mangaDelete');  // Suppression
+
 $match = $router->match();
 
 // Si une correspondance est trouvée (match est un tableau)
@@ -49,26 +44,3 @@ if(is_array($match)){
         http_response_code(404);
     }
 }
-
-
-
-// require 'vendor/autoload.php';
-// require 'vendor/altorouter/altorouter/AltoRouter.php';
-
-// $router = new AltoRouter();
-// $router->setBasePath('/mangatheque');
-
-// $router->map( 'GET', '/', 'ControllerPage#homePage', 'homepage');
-
-// $match = $router->match();
-
-// if(is_array($match)){
-//     list($controller, $action) = explode("#", $match['target']);
-//     $obj = new $controller();
-
-//     if(is_callable(array($obj, $action))){
-//         call_user_func_array(array($obj, $action), $match['params']);
-//     } else {
-//         http_response_code(404);
-//     }
-// }
