@@ -20,7 +20,7 @@ class ModelUser extends Model
         return $arrayUser;
     }
 
-    public function getOneUserByid(int $id) : ?User
+    public function getOneUserByid(int $id): ?User
     {
         // rajout d'un prepare car on a une variable
         $req = $this->getDb()->prepare('SELECT id, pseudo, email, password, created_at From user WHERE id = :id');
@@ -37,7 +37,8 @@ class ModelUser extends Model
         return $user ? new User($user) : null;
     }
 
-    public function createUser(string $pseudo, string $email, string $password): bool {
+    public function createUser(string $pseudo, string $email, string $password): bool
+    {
         $req = $this->getDb()->prepare('INSERT INTO `user`(`pseudo`, `email`, `password`, `created_at`) VALUES (:pseudo, :email, :password, NOW())');
 
         $passwordHash = password_hash($password, PASSWORD_DEFAULT);
@@ -49,26 +50,34 @@ class ModelUser extends Model
         return $req->execute();
     }
 
-    public function deleteOneUserById(int $id) : bool
+    public function deleteOneUserById(int $id): bool
     {
         $req = $this->getDb()->prepare('DELETE FROM user WHERE id = :id');
         $req->bindParam(':id', $id, PDO::PARAM_INT);
         $req->execute();
 
         return $req->rowCount() > 0;
-
     }
 
-    public function updateOneUserById(int $id) : bool 
+    public function updateOneUserById(int $id): bool
     {
         $req = $this->getDb()->prepare('UPDATE user SET pseudo = :pseudo, email = :email, password = :password WHERE id = :id');
         $req->bindParam(':id', $id, PDO::PARAM_INT);
         $req->bindParam(':pseudo', $pseudo, PDO::PARAM_STR);
         $req->bindParam(':email', $email, PDO::PARAM_STR);
         $req->bindParam(':password', $password, PDO::PARAM_STR);
-        
+
         return $req->execute();
     }
 
+    public function getUserByEmail(string $email): ?User
+    {
+        $req = $this->getDb()->prepare('SELECT id, pseudo, email, password, created_at FROM user WHERE email = :email');
+        $req->bindParam(':email', $email, PDO::PARAM_STR);
+        $req->execute();
 
+        $user = $req->fetch(PDO::FETCH_ASSOC);
+
+        return $user ? new User($user) : null;
+    }
 }

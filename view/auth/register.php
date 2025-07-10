@@ -3,7 +3,7 @@ $title = 'Register';
 ob_start();
 ?>
 <!-- method="POST" car password -->
-<form action="/mangatheque:register" method="POST">
+<form action="/mangatheque/register" method="POST">
     <div>
         <label for="pseudo">Pseudo</label>
         <input type="text" name="pseudo" id="pseudo" required>
