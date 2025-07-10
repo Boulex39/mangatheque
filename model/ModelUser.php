@@ -37,6 +37,18 @@ class ModelUser extends Model
         return $user ? new User($user) : null;
     }
 
+    public function createUser(string $pseudo, string $email, string $password): bool {
+        $req = $this->getDb()->prepare('INSERT INTO `user`(`pseudo`, `email`, `password`, `created_at`) VALUES (:pseudo, :email, :password, NOW())');
+
+        $passwordHash = password_hash($password, PASSWORD_DEFAULT);
+
+        $req->bindParam(':pseudo', $pseudo, PDO::PARAM_STR);
+        $req->bindParam(':email', $email, PDO::PARAM_STR);
+        $req->bindParam(':password', $passwordHash, PDO::PARAM_STR);
+
+        return $req->execute();
+    }
+
     public function deleteOneUserById(int $id) : bool
     {
         $req = $this->getDb()->prepare('DELETE FROM user WHERE id = :id');
@@ -60,19 +72,3 @@ class ModelUser extends Model
 
 
 }
-
-// class ModelUser
-// {
-//     public function getUsers(): array
-//     {
-//         $db = new PDO('mysql:host=localhost;dbname=mangatheque', 'root');
-//         $query = $db->query('SELECT id, pseudo, email, password, created_at FROM user');
-
-//         $arrayUser = [];
-//         while($user = $query->fetch(PDO::FETCH_ASSOC)){
-//             $arrayUser[] = new User($user['id'], $user['pseudo'], $user['email'], $user['password']);
-//         }
-
-//         return $arrayUser;
-//     }
-// }

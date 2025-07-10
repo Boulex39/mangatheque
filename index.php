@@ -1,4 +1,6 @@
 <?php
+// Toujours placer session_start() en haut de tableau
+session_start();
 // On inclut l'autoloader généré par Composer pour charger automatiquement les classes nécessaires
 require 'vendor/autoload.php';
 
@@ -29,6 +31,20 @@ $router->map('GET|POST', '/user/update/[i:id]', 'ControllerUser#updateUser', 'us
 // On essaie de faire correspondre l'URL actuelle avec les routes définies
 $match = $router->match();
 
+// Routes Manga
+$router->map('GET', '/mangas', 'ControllerManga#allMangas', 'mangaspage');             // Liste tous les mangas
+$router->map('GET', '/mangas/[i:id]', 'ControllerManga#oneManga', 'mangapage');        // Fiche d'un manga
+$router->map('GET', '/mangas/create', 'ControllerManga#createMangaForm', 'mangaCreateForm'); // Formulaire ajout manga
+$router->map('POST', '/mangas/store', 'ControllerManga#storeManga', 'mangaStore');     // Traitement ajout manga
+$router->map('GET', '/mangas/[i:id]/edit', 'ControllerManga#editMangaForm', 'mangaEditForm'); // Formulaire édition
+$router->map('POST', '/mangas/[i:id]/update', 'ControllerManga#updateManga', 'mangaUpdate');  // Traitement édition
+$router->map('POST', '/mangas/[i:id]/delete', 'ControllerManga#deleteManga', 'mangaDelete');  // Suppression
+
+//LOGIN REGISTER LOGOUT
+$router->map('GET|POST', '/register', 'ControllerAuth#register', 'register');
+
+
+$match = $router->match();
 // Si une correspondance est trouvée (match est un tableau)
 if(is_array($match)){
     
